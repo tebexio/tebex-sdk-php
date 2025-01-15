@@ -240,7 +240,7 @@ class Headless extends TebexAPI {
     public static function getPackage(int $packageId) : Package
     {
         $packageDataJson = self::_request("GET", "packages/" . $packageId);
-        return new Package($packageDataJson);
+        return new Package($packageDataJson["data"]);
     }
 
     /**
