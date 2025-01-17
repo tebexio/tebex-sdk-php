@@ -16,17 +16,22 @@ use function PHPUnit\Framework\assertTrue;
 
 class CheckoutTest extends TestCase
 {
-    public int $projectId = 1361049;
-    public string $privateKey = (string)getenv("TEBEX_CHECKOUT_PRIVATE_KEY");
-    private string $testPaymentId = (string)getenv("TEBEX_CHECKOUT_TEST_PAYMENT_ID");
-    private string $testRecurringPaymentId =  (string)getenv("TEBEX_CHECKOUT_TEST_RECURRING_PAYMENT_ID");
+    public int $projectId;
+    public string $privateKey;
+    private string $testPaymentId;
+    private string $testRecurringPaymentId;
 
     private BasketBuilder $testBasketBuilder;
 
     protected function setUp() : void
     {
         parent::setUp();
-        Checkout::setApiKeys("1361049", "pzpwOOO7Y7oUzQUVLeeH8smzfKYHy6gd");
+        $this->projectId = (int)getenv("TEBEX_CHECKOUT_PROJECT_ID");
+        $this->privateKey = (string)getenv("TEBEX_CHECKOUT_PRIVATE_KEY");
+        $this->testPaymentId = (string)getenv("TEBEX_CHECKOUT_TEST_PAYMENT_ID");
+        $this->testRecurringPaymentId =  (string)getenv("TEBEX_CHECKOUT_TEST_RECURRING_PAYMENT_ID");
+
+        Checkout::setApiKeys($this->projectId,$this->privateKey);
     }
 
     private function createTestBasketBuilder() {
