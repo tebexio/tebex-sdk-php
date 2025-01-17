@@ -14,15 +14,19 @@ use function PHPUnit\Framework\assertInstanceOf;
 
 class HeadlessTest extends TestCase
 {
-    public string $publicToken = (string)getenv("TEBEX_HEADLESS_PUBLIC_TOKEN");
-    public string $rustPublicToken = (string)getenv("TEBEX_HEADLESS_TEST_RUST_PUBLIC_TOKEN");
-    public string $universalPublicToken = (string)getenv("TEBEX_HEADLESS_TEST_UNIVERSAL_PUBLIC_TOKEN");
+    public string $publicToken;
+    public string $rustPublicToken;
+    public string $universalPublicToken;
 
     public TebexProject $project;
 
     public BasketFacade $basket;
 
     protected function setUp() : void {
+        $this->publicToken = (string) getenv("TEBEX_HEADLESS_PUBLIC_TOKEN");
+        $this->rustPublicToken = (string) getenv("TEBEX_HEADLESS_TEST_RUST_PUBLIC_TOKEN");
+        $this->universalPublicToken = (string) getenv("TEBEX_HEADLESS_TEST_UNIVERSAL_PUBLIC_TOKEN");
+
         $this->project = Headless::setProject($this->publicToken);
     }
 
@@ -39,6 +43,7 @@ class HeadlessTest extends TestCase
     {
         $basket = $this->_createBasketFacade();
         self::assertInstanceOf(Basket::class, $basket->getBasket());
+        self::assertNotNull($basket->getBasket()->getId());
     }
 
     public function testGetUserAuthUrl()
@@ -65,11 +70,13 @@ class HeadlessTest extends TestCase
         self::assertNotEmpty($links);
         self::assertNotNull($links);
         self::assertArrayHasKey("checkout", $links);
+        self::assertNotNull($links["checkout"]);
     }
 
     public function testGetAllCategories()
     {
         self::assertNotEmpty(Headless::getAllCategories());
+        self::assertNotNull(Headless::getAllCategories()[0]->getId());
     }
 
     public function testGetHeadlessApi()
@@ -88,11 +95,13 @@ class HeadlessTest extends TestCase
     public function testGetWebstore()
     {
         self::assertNotEmpty(Headless::getWebstore());
+        self::assertNotNull(Headless::getWebstore()->getId());
     }
 
     public function testGetAllPackages()
     {
         self::assertNotEmpty(Headless::getAllPackages());
+        self::assertNotNull(Headless::getAllPackages()[0]->getId());
     }
 
     public function testGetCategory()
@@ -102,6 +111,7 @@ class HeadlessTest extends TestCase
         $category = Headless::getCategory($categoryId);
         self::assertNotNull($category);
         self::assertInstanceOf(Category::class, $category);
+        self::assertNotNull($category->getId());
     }
 
     public function testGetPackage()
@@ -111,6 +121,7 @@ class HeadlessTest extends TestCase
         $package = Headless::getPackage($packageId);
         self::assertNotNull($packages);
         self::assertInstanceOf(Package::class, $package);
+        self::assertNotNull($package->getId());
     }
 
     public function testAddCoupon()
