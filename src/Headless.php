@@ -19,9 +19,12 @@ use TebexHeadless\Configuration;
 use TebexHeadless\Model\Basket;
 use TebexHeadless\Model\BasketLinks;
 use TebexHeadless\Model\Category;
+use TebexHeadless\Model\CategoryResponse;
 use TebexHeadless\Model\Coupon;
 use TebexHeadless\Model\CreateBasketRequest;
 use TebexHeadless\Model\Package;
+use TebexHeadless\Model\UpdateTierRequest;
+use TebexHeadless\Model\UpdateTierResponse;
 use TebexHeadless\Model\Webstore;
 use TebexHeadless\TebexHeadless\HeadlessApi;
 
@@ -270,5 +273,47 @@ class Headless extends TebexAPI {
         self::_request("POST", "baskets/" . $basket->getBasket()->getIdent() . "/coupons/remove", [
             "coupon_code" => $coupon->getCouponCode()
         ]);
+    }
+
+    /**
+     * Retrieves a list of tiered categories specific to a given user. The category will contain an active_tier if the
+     * user has purchased any tier in the category.
+     *
+     * @param string $usernameId The username ID (steam64) of the user to check tiers.
+     *
+     * @return array An array containing tiered category data for the specified user.
+     * @throws ApiException
+     */
+    public static function getTieredCategoriesForUser(string $usernameId) : array {
+        return self::$headlessApi->getTieredCategoriesForUser(self::$_publicToken, $usernameId)->getData();
+    }
+
+    /**
+     * Retrieves a list of tiered categories from all available categories.
+     *
+     * @return array An array containing tiered categories.
+     * @throws ApiException
+     */
+    public static function getTieredCategories() : array {
+        $categories = self::getAllCategories();
+        $tieredCategories = [];
+        foreach ($categories as $category) {
+            if ($category->getTiered()) {
+                $tieredCategories[] = $category;
+            }
+        }
+        return $tieredCategories;
+    }
+
+    /**
+     * Updates the given tier to a new package.
+     *
+     * @param int $tierId The ID of the current tier to be updated.
+     * @param int $newTierPackageId The ID of the new package to update the tier to.
+     * @return UpdateTierResponse Status response object containing the result of the update
+     * @throws ApiException
+     */
+    public static function updateTier(int $tierId, int $newTierPackageId) : UpdateTierResponse {
+        return self::$headlessApi->updateTier(self::$_publicToken, $tierId, new UpdateTierRequest(["package_id" => $newTierPackageId]));
     }
 }
