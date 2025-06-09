@@ -11,6 +11,8 @@ use TebexHeadless\Model\Coupon;
 use TebexHeadless\Model\Package;
 use function PHPUnit\Framework\assertEquals;
 use function PHPUnit\Framework\assertInstanceOf;
+use function PHPUnit\Framework\assertNotNull;
+use function PHPUnit\Framework\assertTrue;
 
 class HeadlessTest extends TestCase
 {
@@ -21,6 +23,12 @@ class HeadlessTest extends TestCase
     public TebexProject $project;
 
     public BasketFacade $basket;
+
+    // testing data - replace with your own values
+    public string $testHeadlessBasicAuthPassword = ""; // private key
+    public string $testUserId = ""; //steam id
+    public int $testTier = 40796;
+    public int $testNewTierPackageId = 6276316;
 
     protected function setUp() : void {
         $this->publicToken = (string) getenv("TEBEX_HEADLESS_PUBLIC_TOKEN");
@@ -144,5 +152,39 @@ class HeadlessTest extends TestCase
             "coupon_code" => "test"]));
         $basket->refreshBasket();
         self::assertTrue(sizeof($basket->getBasket()->getCoupons()) == 0);
+    }
+
+    public function testGetTieredCategories() {
+        self::assertNotEmpty(Headless::getTieredCategories());
+        foreach (Headless::getTieredCategories() as $category) {
+            self::assertTrue($category->getTiered());
+        }
+    }
+
+    public function testGetTieredCategoriesForUser() {
+        Headless::getHeadlessApi()->getConfig()->setUsername($this->publicToken);
+        Headless::getHeadlessApi()->getConfig()->setPassword($this->testHeadlessBasicAuthPassword);
+        $tieredCategories = Headless::getTieredCategoriesForUser($this->testUserId);
+        foreach ($tieredCategories as $category) {
+            if ($category->getTiered() && $category->getActiveTier() != null) {
+                $activeTier = $category->getActiveTier();
+
+                assertNotNull($activeTier->getId());
+                assertNotNull($activeTier->getPackage());
+                assertNotNull($activeTier->getUsernameId());
+                assertNotNull($activeTier->getCreatedAt());
+                assertTrue($activeTier->getActive());
+                assertNotNull($activeTier->getRecurringPaymentReference());
+                assertNotNull($activeTier->getNextPaymentDate());
+                assertNotNull($activeTier->getStatus());
+            }
+        }
+    }
+
+    public function testUpdateTier() {
+        Headless::getHeadlessApi()->getConfig()->setUsername($this->publicToken);
+        Headless::getHeadlessApi()->getConfig()->setPassword($this->testHeadlessBasicAuthPassword);
+        $response = Headless::updateTier($this->testTier, $this->testNewTierPackageId);
+        assertTrue($response->getSuccess());
     }
 }

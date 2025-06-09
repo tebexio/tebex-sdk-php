@@ -1,6 +1,6 @@
 <?php
 /**
- * CategoryResponse
+ * TierStatus
  *
  * PHP version 7.4
  *
@@ -33,7 +33,7 @@ use \ArrayAccess;
 use \TebexHeadless\ObjectSerializer;
 
 /**
- * CategoryResponse Class Doc Comment
+ * TierStatus Class Doc Comment
  *
  * @category Class
  * @package  TebexHeadless
@@ -41,7 +41,7 @@ use \TebexHeadless\ObjectSerializer;
  * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
  */
-class CategoryResponse implements ModelInterface, ArrayAccess, \JsonSerializable
+class TierStatus implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -50,7 +50,7 @@ class CategoryResponse implements ModelInterface, ArrayAccess, \JsonSerializable
       *
       * @var string
       */
-    protected static $openAPIModelName = 'CategoryResponse';
+    protected static $openAPIModelName = 'Tier_status';
 
     /**
       * Array of property to type mappings. Used for (de)serialization
@@ -58,7 +58,8 @@ class CategoryResponse implements ModelInterface, ArrayAccess, \JsonSerializable
       * @var string[]
       */
     protected static $openAPITypes = [
-        'data' => '\TebexHeadless\Model\Category[]'
+        'id' => 'int',
+        'description' => 'string'
     ];
 
     /**
@@ -69,7 +70,8 @@ class CategoryResponse implements ModelInterface, ArrayAccess, \JsonSerializable
       * @psalm-var array<string, string|null>
       */
     protected static $openAPIFormats = [
-        'data' => null
+        'id' => null,
+        'description' => null
     ];
 
     /**
@@ -78,7 +80,8 @@ class CategoryResponse implements ModelInterface, ArrayAccess, \JsonSerializable
       * @var boolean[]
       */
     protected static array $openAPINullables = [
-        'data' => false
+        'id' => false,
+        'description' => false
     ];
 
     /**
@@ -167,7 +170,8 @@ class CategoryResponse implements ModelInterface, ArrayAccess, \JsonSerializable
      * @var string[]
      */
     protected static $attributeMap = [
-        'data' => 'data'
+        'id' => 'id',
+        'description' => 'description'
     ];
 
     /**
@@ -176,7 +180,8 @@ class CategoryResponse implements ModelInterface, ArrayAccess, \JsonSerializable
      * @var string[]
      */
     protected static $setters = [
-        'data' => 'setData'
+        'id' => 'setId',
+        'description' => 'setDescription'
     ];
 
     /**
@@ -185,7 +190,8 @@ class CategoryResponse implements ModelInterface, ArrayAccess, \JsonSerializable
      * @var string[]
      */
     protected static $getters = [
-        'data' => 'getData'
+        'id' => 'getId',
+        'description' => 'getDescription'
     ];
 
     /**
@@ -245,7 +251,8 @@ class CategoryResponse implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function __construct(array $data = null)
     {
-        $this->setIfExists('data', $data ?? [], null);
+        $this->setIfExists('id', $data ?? [], null);
+        $this->setIfExists('description', $data ?? [], null);
     }
 
     /**
@@ -291,28 +298,55 @@ class CategoryResponse implements ModelInterface, ArrayAccess, \JsonSerializable
 
 
     /**
-     * Gets data
+     * Gets id
      *
-     * @return \TebexHeadless\Model\Category[]|null
+     * @return int|null
      */
-    public function getData()
+    public function getId()
     {
-        return $this->container['data'];
+        return $this->container['id'];
     }
 
     /**
-     * Sets data
+     * Sets id
      *
-     * @param \TebexHeadless\Model\Category[]|null $data data
+     * @param int|null $id id
      *
      * @return self
      */
-    public function setData($data)
+    public function setId($id)
     {
-        if (is_null($data)) {
-            throw new \InvalidArgumentException('non-nullable data cannot be null');
+        if (is_null($id)) {
+            throw new \InvalidArgumentException('non-nullable id cannot be null');
         }
-        $this->container['data'] = $data;
+        $this->container['id'] = $id;
+
+        return $this;
+    }
+
+    /**
+     * Gets description
+     *
+     * @return string|null
+     */
+    public function getDescription()
+    {
+        return $this->container['description'];
+    }
+
+    /**
+     * Sets description
+     *
+     * @param string|null $description description
+     *
+     * @return self
+     */
+    public function setDescription($description)
+    {
+        if (is_null($description)) {
+            throw new \InvalidArgumentException('non-nullable description cannot be null');
+        }
+        $this->container['description'] = $description;
 
         return $this;
     }

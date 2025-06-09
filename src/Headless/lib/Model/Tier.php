@@ -1,6 +1,6 @@
 <?php
 /**
- * UpdateTierResponse
+ * Tier
  *
  * PHP version 7.4
  *
@@ -33,7 +33,7 @@ use \ArrayAccess;
 use \TebexHeadless\ObjectSerializer;
 
 /**
- * UpdateTierResponse Class Doc Comment
+ * Tier Class Doc Comment
  *
  * @category Class
  * @package  TebexHeadless
@@ -41,7 +41,7 @@ use \TebexHeadless\ObjectSerializer;
  * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
  */
-class UpdateTierResponse implements ModelInterface, ArrayAccess, \JsonSerializable
+class Tier implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -50,7 +50,7 @@ class UpdateTierResponse implements ModelInterface, ArrayAccess, \JsonSerializab
       *
       * @var string
       */
-    protected static $openAPIModelName = 'UpdateTierResponse';
+    protected static $openAPIModelName = 'Tier';
 
     /**
       * Array of property to type mappings. Used for (de)serialization
@@ -58,8 +58,15 @@ class UpdateTierResponse implements ModelInterface, ArrayAccess, \JsonSerializab
       * @var string[]
       */
     protected static $openAPITypes = [
-        'success' => 'bool',
-        'message' => 'string'
+        'id' => 'int',
+        'created_at' => '\DateTime',
+        'username_id' => 'string',
+        'package' => '\TebexHeadless\Model\Package',
+        'active' => 'bool',
+        'recurring_payment_reference' => 'string',
+        'next_payment_date' => '\DateTime',
+        'status' => '\TebexHeadless\Model\TierStatus',
+        'pending_downgrade_package' => '\TebexHeadless\Model\TierPendingDowngradePackage'
     ];
 
     /**
@@ -70,8 +77,15 @@ class UpdateTierResponse implements ModelInterface, ArrayAccess, \JsonSerializab
       * @psalm-var array<string, string|null>
       */
     protected static $openAPIFormats = [
-        'success' => null,
-        'message' => null
+        'id' => null,
+        'created_at' => 'date-time',
+        'username_id' => null,
+        'package' => null,
+        'active' => null,
+        'recurring_payment_reference' => null,
+        'next_payment_date' => 'date-time',
+        'status' => null,
+        'pending_downgrade_package' => null
     ];
 
     /**
@@ -80,8 +94,15 @@ class UpdateTierResponse implements ModelInterface, ArrayAccess, \JsonSerializab
       * @var boolean[]
       */
     protected static array $openAPINullables = [
-        'success' => false,
-        'message' => false
+        'id' => false,
+        'created_at' => false,
+        'username_id' => false,
+        'package' => false,
+        'active' => false,
+        'recurring_payment_reference' => false,
+        'next_payment_date' => false,
+        'status' => false,
+        'pending_downgrade_package' => true
     ];
 
     /**
@@ -170,8 +191,15 @@ class UpdateTierResponse implements ModelInterface, ArrayAccess, \JsonSerializab
      * @var string[]
      */
     protected static $attributeMap = [
-        'success' => 'success',
-        'message' => 'message'
+        'id' => 'id',
+        'created_at' => 'created_at',
+        'username_id' => 'username_id',
+        'package' => 'package',
+        'active' => 'active',
+        'recurring_payment_reference' => 'recurring_payment_reference',
+        'next_payment_date' => 'next_payment_date',
+        'status' => 'status',
+        'pending_downgrade_package' => 'pending_downgrade_package'
     ];
 
     /**
@@ -180,8 +208,15 @@ class UpdateTierResponse implements ModelInterface, ArrayAccess, \JsonSerializab
      * @var string[]
      */
     protected static $setters = [
-        'success' => 'setSuccess',
-        'message' => 'setMessage'
+        'id' => 'setId',
+        'created_at' => 'setCreatedAt',
+        'username_id' => 'setUsernameId',
+        'package' => 'setPackage',
+        'active' => 'setActive',
+        'recurring_payment_reference' => 'setRecurringPaymentReference',
+        'next_payment_date' => 'setNextPaymentDate',
+        'status' => 'setStatus',
+        'pending_downgrade_package' => 'setPendingDowngradePackage'
     ];
 
     /**
@@ -190,8 +225,15 @@ class UpdateTierResponse implements ModelInterface, ArrayAccess, \JsonSerializab
      * @var string[]
      */
     protected static $getters = [
-        'success' => 'getSuccess',
-        'message' => 'getMessage'
+        'id' => 'getId',
+        'created_at' => 'getCreatedAt',
+        'username_id' => 'getUsernameId',
+        'package' => 'getPackage',
+        'active' => 'getActive',
+        'recurring_payment_reference' => 'getRecurringPaymentReference',
+        'next_payment_date' => 'getNextPaymentDate',
+        'status' => 'getStatus',
+        'pending_downgrade_package' => 'getPendingDowngradePackage'
     ];
 
     /**
@@ -251,8 +293,15 @@ class UpdateTierResponse implements ModelInterface, ArrayAccess, \JsonSerializab
      */
     public function __construct(array $data = null)
     {
-        $this->setIfExists('success', $data ?? [], null);
-        $this->setIfExists('message', $data ?? [], null);
+        $this->setIfExists('id', $data ?? [], null);
+        $this->setIfExists('created_at', $data ?? [], null);
+        $this->setIfExists('username_id', $data ?? [], null);
+        $this->setIfExists('package', $data ?? [], null);
+        $this->setIfExists('active', $data ?? [], null);
+        $this->setIfExists('recurring_payment_reference', $data ?? [], null);
+        $this->setIfExists('next_payment_date', $data ?? [], null);
+        $this->setIfExists('status', $data ?? [], null);
+        $this->setIfExists('pending_downgrade_package', $data ?? [], null);
     }
 
     /**
@@ -298,55 +347,251 @@ class UpdateTierResponse implements ModelInterface, ArrayAccess, \JsonSerializab
 
 
     /**
-     * Gets success
+     * Gets id
      *
-     * @return bool|null
+     * @return int|null
      */
-    public function getSuccess()
+    public function getId()
     {
-        return $this->container['success'];
+        return $this->container['id'];
     }
 
     /**
-     * Sets success
+     * Sets id
      *
-     * @param bool|null $success success
+     * @param int|null $id id
      *
      * @return self
      */
-    public function setSuccess($success)
+    public function setId($id)
     {
-        if (is_null($success)) {
-            throw new \InvalidArgumentException('non-nullable success cannot be null');
+        if (is_null($id)) {
+            throw new \InvalidArgumentException('non-nullable id cannot be null');
         }
-        $this->container['success'] = $success;
+        $this->container['id'] = $id;
 
         return $this;
     }
 
     /**
-     * Gets message
+     * Gets created_at
      *
-     * @return string|null
+     * @return \DateTime|null
      */
-    public function getMessage()
+    public function getCreatedAt()
     {
-        return $this->container['message'];
+        return $this->container['created_at'];
     }
 
     /**
-     * Sets message
+     * Sets created_at
      *
-     * @param string|null $message message
+     * @param \DateTime|null $created_at The date and time when the tier became active
      *
      * @return self
      */
-    public function setMessage($message)
+    public function setCreatedAt($created_at)
     {
-        if (is_null($message)) {
-            throw new \InvalidArgumentException('non-nullable message cannot be null');
+        if (is_null($created_at)) {
+            throw new \InvalidArgumentException('non-nullable created_at cannot be null');
         }
-        $this->container['message'] = $message;
+        $this->container['created_at'] = $created_at;
+
+        return $this;
+    }
+
+    /**
+     * Gets username_id
+     *
+     * @return string|null
+     */
+    public function getUsernameId()
+    {
+        return $this->container['username_id'];
+    }
+
+    /**
+     * Sets username_id
+     *
+     * @param string|null $username_id The user's username ID. For Steam, this is a numeric representation of their Steam64ID
+     *
+     * @return self
+     */
+    public function setUsernameId($username_id)
+    {
+        if (is_null($username_id)) {
+            throw new \InvalidArgumentException('non-nullable username_id cannot be null');
+        }
+        $this->container['username_id'] = $username_id;
+
+        return $this;
+    }
+
+    /**
+     * Gets package
+     *
+     * @return \TebexHeadless\Model\Package|null
+     */
+    public function getPackage()
+    {
+        return $this->container['package'];
+    }
+
+    /**
+     * Sets package
+     *
+     * @param \TebexHeadless\Model\Package|null $package package
+     *
+     * @return self
+     */
+    public function setPackage($package)
+    {
+        if (is_null($package)) {
+            throw new \InvalidArgumentException('non-nullable package cannot be null');
+        }
+        $this->container['package'] = $package;
+
+        return $this;
+    }
+
+    /**
+     * Gets active
+     *
+     * @return bool|null
+     */
+    public function getActive()
+    {
+        return $this->container['active'];
+    }
+
+    /**
+     * Sets active
+     *
+     * @param bool|null $active True if the tier is currently active.
+     *
+     * @return self
+     */
+    public function setActive($active)
+    {
+        if (is_null($active)) {
+            throw new \InvalidArgumentException('non-nullable active cannot be null');
+        }
+        $this->container['active'] = $active;
+
+        return $this;
+    }
+
+    /**
+     * Gets recurring_payment_reference
+     *
+     * @return string|null
+     */
+    public function getRecurringPaymentReference()
+    {
+        return $this->container['recurring_payment_reference'];
+    }
+
+    /**
+     * Sets recurring_payment_reference
+     *
+     * @param string|null $recurring_payment_reference The ID of the recurring payment this tier is attached to.
+     *
+     * @return self
+     */
+    public function setRecurringPaymentReference($recurring_payment_reference)
+    {
+        if (is_null($recurring_payment_reference)) {
+            throw new \InvalidArgumentException('non-nullable recurring_payment_reference cannot be null');
+        }
+        $this->container['recurring_payment_reference'] = $recurring_payment_reference;
+
+        return $this;
+    }
+
+    /**
+     * Gets next_payment_date
+     *
+     * @return \DateTime|null
+     */
+    public function getNextPaymentDate()
+    {
+        return $this->container['next_payment_date'];
+    }
+
+    /**
+     * Sets next_payment_date
+     *
+     * @param \DateTime|null $next_payment_date The date and time of the next payment for this tier.
+     *
+     * @return self
+     */
+    public function setNextPaymentDate($next_payment_date)
+    {
+        if (is_null($next_payment_date)) {
+            throw new \InvalidArgumentException('non-nullable next_payment_date cannot be null');
+        }
+        $this->container['next_payment_date'] = $next_payment_date;
+
+        return $this;
+    }
+
+    /**
+     * Gets status
+     *
+     * @return \TebexHeadless\Model\TierStatus|null
+     */
+    public function getStatus()
+    {
+        return $this->container['status'];
+    }
+
+    /**
+     * Sets status
+     *
+     * @param \TebexHeadless\Model\TierStatus|null $status status
+     *
+     * @return self
+     */
+    public function setStatus($status)
+    {
+        if (is_null($status)) {
+            throw new \InvalidArgumentException('non-nullable status cannot be null');
+        }
+        $this->container['status'] = $status;
+
+        return $this;
+    }
+
+    /**
+     * Gets pending_downgrade_package
+     *
+     * @return \TebexHeadless\Model\TierPendingDowngradePackage|null
+     */
+    public function getPendingDowngradePackage()
+    {
+        return $this->container['pending_downgrade_package'];
+    }
+
+    /**
+     * Sets pending_downgrade_package
+     *
+     * @param \TebexHeadless\Model\TierPendingDowngradePackage|null $pending_downgrade_package pending_downgrade_package
+     *
+     * @return self
+     */
+    public function setPendingDowngradePackage($pending_downgrade_package)
+    {
+        if (is_null($pending_downgrade_package)) {
+            array_push($this->openAPINullablesSetToNull, 'pending_downgrade_package');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('pending_downgrade_package', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['pending_downgrade_package'] = $pending_downgrade_package;
 
         return $this;
     }

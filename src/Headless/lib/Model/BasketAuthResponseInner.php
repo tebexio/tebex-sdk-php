@@ -1,6 +1,6 @@
 <?php
 /**
- * CategoryResponse
+ * BasketAuthResponseInner
  *
  * PHP version 7.4
  *
@@ -33,7 +33,7 @@ use \ArrayAccess;
 use \TebexHeadless\ObjectSerializer;
 
 /**
- * CategoryResponse Class Doc Comment
+ * BasketAuthResponseInner Class Doc Comment
  *
  * @category Class
  * @package  TebexHeadless
@@ -41,7 +41,7 @@ use \TebexHeadless\ObjectSerializer;
  * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
  */
-class CategoryResponse implements ModelInterface, ArrayAccess, \JsonSerializable
+class BasketAuthResponseInner implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -50,7 +50,7 @@ class CategoryResponse implements ModelInterface, ArrayAccess, \JsonSerializable
       *
       * @var string
       */
-    protected static $openAPIModelName = 'CategoryResponse';
+    protected static $openAPIModelName = 'BasketAuthResponse_inner';
 
     /**
       * Array of property to type mappings. Used for (de)serialization
@@ -58,7 +58,8 @@ class CategoryResponse implements ModelInterface, ArrayAccess, \JsonSerializable
       * @var string[]
       */
     protected static $openAPITypes = [
-        'data' => '\TebexHeadless\Model\Category[]'
+        'name' => 'string',
+        'url' => 'string'
     ];
 
     /**
@@ -69,7 +70,8 @@ class CategoryResponse implements ModelInterface, ArrayAccess, \JsonSerializable
       * @psalm-var array<string, string|null>
       */
     protected static $openAPIFormats = [
-        'data' => null
+        'name' => null,
+        'url' => null
     ];
 
     /**
@@ -78,7 +80,8 @@ class CategoryResponse implements ModelInterface, ArrayAccess, \JsonSerializable
       * @var boolean[]
       */
     protected static array $openAPINullables = [
-        'data' => false
+        'name' => false,
+        'url' => false
     ];
 
     /**
@@ -167,7 +170,8 @@ class CategoryResponse implements ModelInterface, ArrayAccess, \JsonSerializable
      * @var string[]
      */
     protected static $attributeMap = [
-        'data' => 'data'
+        'name' => 'name',
+        'url' => 'url'
     ];
 
     /**
@@ -176,7 +180,8 @@ class CategoryResponse implements ModelInterface, ArrayAccess, \JsonSerializable
      * @var string[]
      */
     protected static $setters = [
-        'data' => 'setData'
+        'name' => 'setName',
+        'url' => 'setUrl'
     ];
 
     /**
@@ -185,7 +190,8 @@ class CategoryResponse implements ModelInterface, ArrayAccess, \JsonSerializable
      * @var string[]
      */
     protected static $getters = [
-        'data' => 'getData'
+        'name' => 'getName',
+        'url' => 'getUrl'
     ];
 
     /**
@@ -245,7 +251,8 @@ class CategoryResponse implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function __construct(array $data = null)
     {
-        $this->setIfExists('data', $data ?? [], null);
+        $this->setIfExists('name', $data ?? [], null);
+        $this->setIfExists('url', $data ?? [], null);
     }
 
     /**
@@ -291,28 +298,55 @@ class CategoryResponse implements ModelInterface, ArrayAccess, \JsonSerializable
 
 
     /**
-     * Gets data
+     * Gets name
      *
-     * @return \TebexHeadless\Model\Category[]|null
+     * @return string|null
      */
-    public function getData()
+    public function getName()
     {
-        return $this->container['data'];
+        return $this->container['name'];
     }
 
     /**
-     * Sets data
+     * Sets name
      *
-     * @param \TebexHeadless\Model\Category[]|null $data data
+     * @param string|null $name name
      *
      * @return self
      */
-    public function setData($data)
+    public function setName($name)
     {
-        if (is_null($data)) {
-            throw new \InvalidArgumentException('non-nullable data cannot be null');
+        if (is_null($name)) {
+            throw new \InvalidArgumentException('non-nullable name cannot be null');
         }
-        $this->container['data'] = $data;
+        $this->container['name'] = $name;
+
+        return $this;
+    }
+
+    /**
+     * Gets url
+     *
+     * @return string|null
+     */
+    public function getUrl()
+    {
+        return $this->container['url'];
+    }
+
+    /**
+     * Sets url
+     *
+     * @param string|null $url url
+     *
+     * @return self
+     */
+    public function setUrl($url)
+    {
+        if (is_null($url)) {
+            throw new \InvalidArgumentException('non-nullable url cannot be null');
+        }
+        $this->container['url'] = $url;
 
         return $this;
     }
