@@ -3,6 +3,7 @@
 namespace Tebex\Headless;
 
 use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Exception\RequestException;
 use Tebex\Headless;
 use Tebex\Headless\Projects\TebexProject;
 use TebexHeadless\ApiException;
@@ -208,19 +209,41 @@ class BasketFacade
      *
      * @throws ApiException
      */
-    private function _addPackage(array $data) : BasketFacade {
-        // OpenAPI types are struggling with handling wrapped 'data' responses, so we send and process the data ourselves
+
+    private function _addPackage(array $data): BasketFacade
+    {
         try {
-            $newBasket = json_decode(Headless::getClient()->post("https://headless.tebex.io/api/baskets/" . $this->_basket->getIdent() . "/packages",
-                [
-                    'json' => $data,
-                ]
-            )->getBody()->getContents());
+            $response = Headless::getClient()->post(
+                "https://headless.tebex.io/api/baskets/" . $this->_basket->getIdent() . "/packages",
+                ['json' => $data]
+            );
+
+            $newBasket = json_decode((string) $response->getBody());
+        } catch (RequestException $e) {
+            $status = $e->hasResponse() ? $e->getResponse()->getStatusCode() : $e->getCode();
+
+            $body = '';
+            if ($e->hasResponse()) {
+                $stream = $e->getResponse()->getBody();
+                if ($stream->isSeekable()) {
+                    $stream->rewind();
+                }
+                $body = $stream->getContents(); // FULL body
+            }
+
+            // Put the full API error into the thrown exception message
+            $message = trim($e->getMessage());
+            if ($body !== '') {
+                $message .= "\n\nResponse body:\n" . $body;
+            }
+
+            throw new ApiException($message, (int) $status, $e);
         } catch (GuzzleException $e) {
-            throw new ApiException($e->getMessage(), $e->getCode(), $e);
+            // No response available here necessarily
+            throw new ApiException($e->getMessage(), (int) $e->getCode(), $e);
         }
 
-        $this->_basket = new Basket((array)$newBasket->data);
+        $this->_basket = new Basket((array) $newBasket->data);
         return $this;
     }
 
