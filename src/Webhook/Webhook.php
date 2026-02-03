@@ -151,7 +151,7 @@ class Webhook {
         }
 
         $isSignatureValid = Webhooks::validateWebhookSignature($webhook, $signature);
-        var_dump("VALID: ", $isSignatureValid);
+        //var_dump("VALID: ", $isSignatureValid);
 
         if (!$isSignatureValid) {
             throw new ApiException("Invalid webhook signature", 403);
@@ -248,9 +248,9 @@ class Webhook {
      */
     public function validateSignature(string $expectedSignature, string $webhookSecret): bool
     {
-        $calculatedSignature = hash_hmac('sha256', hash('sha256', $this->_encodedJson), $webhookSecret);
+        $calculatedSignature = hash_hmac('sha256', hash('sha256', $this->_rawJson), $webhookSecret);
         $result = (strcmp($calculatedSignature, $expectedSignature) == 0);
-        var_dump("Result: ", $result);
+        //var_dump("Result: ", $result);
         return $result;
     }
 }
